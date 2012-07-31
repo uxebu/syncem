@@ -7,6 +7,7 @@
   "engines": {
     "node": "*"
   },
+  "main": "./lib/SyncEm.js",
   "devDependencies": {
     "jasmine-node": ">=1.0.26",
     "jasmine-matchers": "git+ssh://git@github.com:uxebu/jasmine-matchers.git"
