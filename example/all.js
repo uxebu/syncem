@@ -66,7 +66,20 @@ function collectAllErrors() {
 }
 
 
+function printData(err, data) {
+  console.log('passOnData', JSON.stringify(data));
+}
+function passOnData() {
+  var s = new SyncEm(printData);
+  (function(cb){
+    setTimeout(function() {cb(null, {data:true})}, 1);
+  })(s.toBeSyncedWithData());
+  inc({value:0}, s.toBeSynced());
+  inc({value:0}, s.toBeSynced());
+}
+
 
 incrementAsync();
 collectError();
 collectAllErrors();
+passOnData();
