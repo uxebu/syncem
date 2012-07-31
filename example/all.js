@@ -44,15 +44,15 @@ function collectError() {
 }
 
 
-function printFirstErr(err) {
+function printAllErrors(err) {
   // is the first error the initial error?
   var success = err.message=='first error';
   success = success && (err.allErrors.length == 2);
   success = success && (err.allErrors[1].message == 'second error');
-  console.log('collectFirstError:', success);
+  console.log('collectAllErrors:', success);
 }
-function collectFirstError() {
-  var s = new SyncEm(printFirstErr);
+function collectAllErrors() {
+  var s = new SyncEm(printAllErrors);
   (function(cb){
     setTimeout(function() {cb(new Error('first error'))}, 1);
   })(s.toBeSynced());
@@ -69,4 +69,4 @@ function collectFirstError() {
 
 incrementAsync();
 collectError();
-collectFirstError();
+collectAllErrors();
