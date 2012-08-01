@@ -39,6 +39,15 @@ describe('SyncEm', function() {
       expect(callback)
         .toHaveBeenCalledWith(null, data);
     });
+    it('should callback error', function() {
+      var s = new SyncEm(callback);
+      var funcs = [s.toBeSynced(), s.toBeSyncedWithData()];
+      var error = new Error('first error');
+      funcs[0](error);
+      funcs[1](null, {});
+      expect(callback.mostRecentCall.args[0])
+        .toBeInstanceOf(SyncEm.Errors);
+    });
   });
 
   describe('error', function() {
@@ -48,6 +57,16 @@ describe('SyncEm', function() {
       s.toBeSynced()(error);
       expect(callback.mostRecentCall.args[0])
         .toBeInstanceOf(SyncEm.Errors);
+    });
+    it('should return error.message of first error', function() {
+      var s = new SyncEm(callback);
+      var funcs = [s.toBeSynced(), s.toBeSynced()];
+      var error1 = new Error('first error');
+      var error2 = new Error;
+      funcs[0](error1);
+      funcs[1](error2);
+      expect(callback.mostRecentCall.args[0].message)
+        .toEqual(error1.message);
     });
     it('should fire with error after second callback is done', function() {
       var s = new SyncEm(callback);
@@ -72,6 +91,16 @@ describe('SyncEm', function() {
       funcs[1](error);
       expect(callback.mostRecentCall.args[0].allErrors)
         .toEqual([error]);
+    });
+    it('should return all errors in `allErrors`', function() {
+      var s = new SyncEm(callback);
+      var funcs = [s.toBeSynced(), s.toBeSynced()];
+      var error1 = new Error;
+      var error2 = new Error;
+      funcs[0](error1);
+      funcs[1](error2);
+      expect(callback.mostRecentCall.args[0].allErrors)
+        .toEqual([error1, error2]);
     });
   });
 });
