@@ -3,7 +3,7 @@
   "private": false,
   "name": "syncem",
   "description": "Sync multiple async calls",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": "*"
   },
